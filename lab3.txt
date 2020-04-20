@@ -1,0 +1,102 @@
+//№3.2.13 
+#include <malloc.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <stdio.h>
+int mass(int n1, int m1, int k1, int z1, int h1, int* a1)
+{
+    int t;
+
+    for (int i = k1; i < m1 * z1 - h1; i = (m1 + 1) + i) {
+        for (int j = k1; j < m1 * z1 - i - h1; j = j + (1 + m1)) {
+            if (a1[j] > a1[j + 1 + m1])
+            {
+
+                t = a1[j]; a1[j] = a1[j + 1 + m1]; a1[j + 1 + m1] = t;
+
+            }
+        }
+    }
+
+    return *a1;
+}
+
+int mass2(int n2, int m2, int k2, int* a2)
+{
+    int t;
+
+    // z=2;
+    for (int i = k2; i <= m2 * n2; i = (m2 + 1) + i) {
+        for (int j = k2; j <= m2 * n2 - i; j = j + (1 + m2)) {
+            if (a2[j] > a2[j + 1 + m2])
+            {
+
+                t = a2[j]; a2[j] = a2[j + 1 + m2]; a2[j + 1 + m2] = t;
+
+            }
+        } //z=z+1;
+    }
+
+    return *a2;
+}
+
+int main()
+{
+    int* a;
+    int n, m, i, j, k, str, stl, mx, var;
+    var = 1;
+    do
+    {
+        printf("\n Row count =");
+        scanf_s("%d", &n);
+        printf("\n Number of columns =");
+        scanf_s("%d", &m);
+        a = (int*)malloc(n * m * sizeof(int));
+        printf("\nEnter the matrix\n");
+        for (i = 0; i < n; i++)
+        {
+            for (j = 0; j < m; j++)
+            {
+                printf("a[%d][%d] = ", i, j);
+                scanf_s("%d", (a + i * m + j));
+            }
+        }
+        printf("\n");
+        for (i = 0; i < n; i++) 
+        {
+            for (j = 0; j < m; j++)  
+            {
+                printf("%3d ", *(a + i * m + j)); // 3 знакомест под элемент массива
+            }
+            printf("\n");
+        }
+        int z, t, h;
+        z = 2; h = 1;
+        for (k = m - 2; k >= 0; k--) {
+
+
+            mass(n, m, k, z, h, a);
+            if (z < n) {
+                z = z + 1;
+
+            }
+            else h = h + 1;
+
+        }
+
+        for (k = m; k <= m * (n - 2); k = k + m) {
+            mass2(n, m, k, a);
+        }
+        printf("\n");
+        for (i = 0; i < n; i++)  
+        {
+            for (j = 0; j < m; j++)  
+            {
+                printf("%3d ", *(a + i * m + j)); 
+            }
+            printf("\n");
+        }
+        free(a);
+    } while (var);
+    return 0;
+}
